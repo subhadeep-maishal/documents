@@ -4,6 +4,10 @@ Compiling ADCIRC with support for NetCDF output on takanami is a fairly involved
 
 Note that I have only attempted this process on takanami, but will be testing on taifu as soon as necessary.
 
+* [Compilers](#Compilers) - Building of the PGI compilers required for ADCIRC
+* [Dependencies](#Dependencies) - Building of the various dependencies required for NetCDF support in ADCIRC
+* [ADCIRC](#ADCIRC) - Building of ADCIRC with NetCDF support
+
 ## Compilers
 
 The very first step in getting ADCIRC build with NetCDF is ensuring that you are able to access the appropriate compilers. Everything we're about to build must be compiled using the same set of compilers, otherwise you'll run into errors. On takanami, we use the PGI compilers. Unfortunately, the version that is installed globally for us to use is outdated and has a [bug](http://www.pgroup.com/userforum/viewtopic.php?t=3278&start=0&postdays=0&postorder=asc&highlight=&sid=ddadfd9e77e22b689480864e1987ca84) that prevents us from compiling one of the dependencies. This leaves us with two options, aside from buying a new professional license and having ITECS update everything. Either build the PGI Community Edition in your own directory space, add the one that I built to your path. The second option I haven't tested out, and I predict there will be permissions issues the first time we test it. Because the second option is actually the last step of the first option, we'll go through building PGI first. If you aren't building, just skip to that section.
@@ -104,3 +108,7 @@ Once you've logged back in, run the command
 echo ${LD_LIBRARY_PATH}
 ```
 and you should see paths to the ```/lib``` directories for the ADCIRC dependencies, the PGI compilers, and OpenMPI. If you do, you're all set and ready to build ADCIRC.
+
+## ADCIRC
+
+Almost there...
