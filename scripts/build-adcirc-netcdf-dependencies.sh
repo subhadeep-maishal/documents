@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the top level directory where all libraries will be built
-DEPENDENCY_DIR=/home/tristan/Desktop/dependencies
+DEPENDENCY_DIR=/home/atdyer/adcirc/dependencies
 
 # Set the versions of each library
 ZLIB_VERSION=zlib-1.2.11
@@ -30,11 +30,15 @@ NETCDF_SRC_DIR=$DOWNLOAD_DIR/netcdf/
 NETCDF_BUILD_DIR=$BUILD_DIR/netcdf/
 NETCDF_FORTRAN_BUILD_DIR=$BUILD_DIR/netcdf-fortran/
 
+# Set the compilers
+export FC=pgfortran
+export CC=gcc
+
 build_directory_structure () {
 
-	if [ ! -d $DEPENDENCY_DIR/downloads ] ; then mkdir -p $DEPENDENCY_DIR/downloads ; fi
-	if [ ! -d $DEPENDENCY_DIR/builds ] ; then mkdir -p $DEPENDENCY_DIR/builds ; fi
-	if [ ! -d $DEPENDENCY_DIR/libraries ] ; then mkdir -p $DEPENDENCY_DIR/libraries ; fi
+	if [ ! -d $DOWNLOAD_DIR ] ; then mkdir -p $DOWNLOAD_DIR ; fi
+	if [ ! -d $BUILD_DIR ] ; then mkdir -p $BUILD_DIR ; fi
+	if [ ! -d $INSTALL_DIR ] ; then mkdir -p $INSTALL_DIR ; fi
 
 }
 
@@ -163,17 +167,17 @@ print_message () {
 	echo
 	echo
 	echo
-	echo -------------------------------------------------------------------
+	echo "-------------------------------------------------------------------"
 	echo 
-	echo   Finished building ADCIRC dependencies (maybe. check for errors)
+	echo "  Finished building ADCIRC dependencies (maybe. check for errors)"
 	echo 
-	echo -------------------------------------------------------------------
+	echo "-------------------------------------------------------------------"
 	echo 
-	echo   To finish installation, add the following line to the end of
-	echo   your ~/.mybashrc file:
-	echo   export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\$LD_LIBRARY_PATH
+	echo "  To finish installation, add the following line to the end of"
+	echo "  your ~/.mybashrc file:"
+	echo "  export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\$LD_LIBRARY_PATH"
 	echo
-	echo -------------------------------------------------------------------
+	echo "-------------------------------------------------------------------"
 	echo
 
 }
