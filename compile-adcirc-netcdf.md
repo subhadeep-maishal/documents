@@ -4,9 +4,9 @@ Compiling ADCIRC with support for NetCDF output on takanami is a fairly involved
 
 Note that I have only attempted this process on takanami, but will be testing on taifu as soon as necessary.
 
-* [Compilers](#Compilers) - Building of the PGI compilers required for ADCIRC
-* [Dependencies](#Dependencies) - Building of the various dependencies required for NetCDF support in ADCIRC
-* [ADCIRC](#ADCIRC) - Building of ADCIRC with NetCDF support
+* [Compilers](#compilers) - Building of the PGI compilers required for ADCIRC
+* [Dependencies](#dependencies) - Building of the various dependencies required for NetCDF support in ADCIRC
+* [ADCIRC](#adcirc) - Building of ADCIRC with NetCDF support
 
 ## Compilers
 
