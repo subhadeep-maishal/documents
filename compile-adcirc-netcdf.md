@@ -95,6 +95,8 @@ Note that this can be a fairly lengthy process (10-15 minutes in my experience),
 
 Once the script finishes, verify the process has completed by looking in the ```$DEPENDENCY_DIR/install/bin``` directory for a program called ```nc-config``` and a program called ```nf-config```. If these files exist, you're good to go. If not, something went wrong.
 
+Note that the directory ```$DEPENDENCY_DIR/install``` is the so-called 'installation directory' that we'll be referring to in the next steps.
+
 ### Add dependencies to the system path
 
 Once the script has finished, you'll see a message telling you to finish installation by adding a line to your ```~/.mybashrc``` file. You can do this by copy-pasting that line to the end of the ```~/.mybashrc``` file, or you can combine it with the line that includes the PGI compilers.
@@ -111,4 +113,48 @@ and you should see paths to the ```/lib``` directories for the ADCIRC dependenci
 
 ## ADCIRC
 
-Almost there...
+Finally, to build ADCIRC we first need to make some changes to the compiler settings. The ```make``` settings that come with ADCIRC are mostly complete, but we need to make some modifications because we built things in a custom location.
+
+In your ADCIRC directory, navigate to the ```/work``` directory and open up the ```cmplrflags.mk``` file in a text editor. Scroll down a bit and you'll see a long list of commented out compilers. At the end of that list add the following lines
+
+```make
+compiler=takanami
+#
+#
+# Compiler flags for takanami pgi
+ifeq ($(compiler),takanami)
+  DEPDIR        :=  /home/atdyer/adcirc/dependencies/install
+  PPFC          :=  pgfortran
+  FC            :=  pgfortran
+  PFC           :=  mpif90
+  FFLAGS1       :=  $(INCDIRS) -fastsse -mcmodel=medium -Mextend -I$(DEPDIR)/include
+  FFLAGS2       :=  $(FFLAGS1)
+  FFLAGS3       :=  $(FFLAGS1)
+  DA            :=  -DREAL8 -DLINUX -DCSCA
+  DP            :=  -DREAL8 -DLINUX -DCSCA -DCMPI
+  DPRE          :=  -DREAL8 -DLINUX
+  IMODS         :=  -I
+  CC            :=  gcc
+  CCBE          :=  $(CC)
+  CFLAGS        :=  $(INCDIRS) -O2 -mcmodel=medium -DLINUX -I$(DEPDIR)/include
+  CLIBS         :=
+  FLIBS         :=  -L$(DEPDIR)/lib -lnetcdff -lnetcdf
+  MSGLIBS       :=
+  $(warning (INFO) Corresponding machine found in cmplrflags.mk.)
+  ifneq ($(FOUND),TRUE)
+     FOUND := TRUE
+  else
+     MULTIPLE := TRUE
+  endif
+endif
+```
+
+On the line that sets the ```DEPDIR``` directory, change the value to the location where you installed the ADCIRC dependencies. Save and close the file.
+
+Finally, compile ADCIRC using the following command:
+
+```bash
+make adcirc padcirc adcprep NETCDF=enable NETCDF4=enable NETCDF4_COMPRESSION=enable NETCDFHOME=/home/atdyer/adcirc/dependencies/install/
+```
+
+Again, making sure to point NETCDFHOME towards the installation directory. Once make has finished, you should have the ```adcirc```, ```padcirc```, and ```adcprep``` executables in the work directory.
