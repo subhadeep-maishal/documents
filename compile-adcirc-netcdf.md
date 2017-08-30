@@ -66,11 +66,41 @@ Now that we have the appropriate compilers, the following will need to be built:
 
 Luckily for you, I have put together a script that will build zlib, HDF5, and NetCDF for you. This script, called ```build-adcirc-netcdf-dependencies.sh``` is located in the ```scripts/``` directory of this repository.
 
+### Set up the script
+
 Download this script and make sure it is executable using the command
 
 ```bash
 chmod +x build-adcirc-netcdf-dependencies.sh
 ```
 
-Open up the script using a text editor, as you'll need to set the following variables:
-* 
+Open up the script using a text editor and edit the variable ```DEPENDENCY_DIR``` to point to the directory that you'd like to contain all of the dependencies.
+
+If you'd like to or need to change the version of any of the libraries, note that the naming convention comes from the actual file download names from each library's respective download website. Scroll down to see a ```wget``` command to understand how it is used. Ensure that the URL that is build in that command will actually point to an existing downloadable file before changing the version.
+
+### Run the script
+
+> Note that if you have just built the PGI compilers and added them to your ```~/.mybashrc``` file, you'll need to log out of and back into takanami before running this script
+
+Save your changes to the script and run the script using:
+```bash
+./build-adcirc-netcdf-dependencies.sh
+```
+
+Note that this can be a fairly lengthy process (10-15 minutes in my experience), so go get some coffee.
+
+Once the script finishes, verify the process has completed by looking in the ```$DEPENDENCY_DIR/install/bin``` directory for a program called ```nc-config``` and a program called ```nf-config```. If these files exist, you're good to go. If not, something went wrong.
+
+### Add dependencies to the system path
+
+Once the script has finished, you'll see a message telling you to finish installation by adding a line to your ```~/.mybashrc``` file. You can do this by copy-pasting that line to the end of the ```~/.mybashrc``` file, or you can combine it with the line that includes the PGI compilers.
+
+Again, you'll need to log out and log back in to takanami in order for the changes to take effect.
+
+### Final check
+
+Once you've logged back in, run the command
+```bash
+echo ${LD_LIBRARY_PATH}
+```
+and you should see paths to the ```/lib``` directories for the ADCIRC dependencies, the PGI compilers, and OpenMPI. If you do, you're all set and ready to build ADCIRC.
