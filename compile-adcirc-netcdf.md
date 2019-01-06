@@ -154,7 +154,7 @@ On the line that sets the ```DEPDIR``` directory, change the value to the locati
 Finally, compile ADCIRC using the following command:
 
 ```bash
-make adcirc padcirc adcprep NETCDF=enable NETCDF4=enable NETCDF4_COMPRESSION=enable NETCDFHOME=/home/atdyer/adcirc/dependencies/install/
+make adcirc padcirc adcprep NETCDF=enable NETCDF4=enable NETCDF4_COMPRESSION=enable
 ```
 
 Again, making sure to point NETCDFHOME towards the installation directory. Once make has finished, you should have the ```adcirc```, ```padcirc```, and ```adcprep``` executables in the work directory.
